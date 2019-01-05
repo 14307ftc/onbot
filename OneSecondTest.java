@@ -62,10 +62,10 @@ public class OneSecondTest extends LinearOpMode{
     
     public void DriveForward() {
     
-        fLDC.setPower(-0.6);
-        fRDC.setPower(0.6);
-        bLDC.setPower(-0.6);
-        bRDC.setPower(0.6);
+        fLDC.setPower(-0.4);
+        fRDC.setPower(0.4);
+        bLDC.setPower(-0.4);
+        bRDC.setPower(0.4);
     }
     
     public void DriveBackward() {
@@ -77,10 +77,10 @@ public class OneSecondTest extends LinearOpMode{
     }
     
     public void TurnRight() {
-        fLDC.setPower(-0.6);
-        fRDC.setPower(-0.6);
-        bLDC.setPower(-0.6);
-        bRDC.setPower(-0.6);
+        fLDC.setPower(-0.4);
+        fRDC.setPower(-0.4);
+        bLDC.setPower(-0.4);
+        bRDC.setPower(-0.4);
     }
     
     public void Wait(double amount) {

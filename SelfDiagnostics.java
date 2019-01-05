@@ -74,7 +74,11 @@ public class SelfDiagnostics extends LinearOpMode{
             //Servo Tests
             
                 claim.setPosition(0);
+                while (time>5 && time <=5.1){
+                }
                 claim.setPosition(0.5);
+                while (time>5.1 && time <=5.2){
+                }
                 claim.setPosition(1);
                 stop();
                 

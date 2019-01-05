@@ -44,38 +44,40 @@ public class AutoDepot extends LinearOpMode{
             telemetry.addLine();
             claim.setPosition(0.5);
             //Move the hook
-            MoveHook(2.7);
+            MoveHook(4.45);
             Wait(1);
             
             //Micromanaging position
             turn(25,"left");
             Wait(0.5);
-            drive(2, "backward");
+            drive(2, "forward");
             Wait(0.5);
-            turn(25, "right");
+            turn(32, "right");
             
             //Going to depot to drop marker
-            drive(60,"backward");
+            drive(62,"forward");
             Wait(1);
             ServoFaceUp();
             Wait(0.2);
             ServoFaceDown();
             Wait(0.5);
-            drive(3, "backward");
+            drive(3, "forward");
             Wait(0.25);
-            drive(4, "forward");
+            drive(4, "backward");
             Wait(0.25);
             
             //Heading into the crater
     
-            turn(120, "left");
+            turn(38, "right");
             Wait(1);
-            drive(90, "backward");
+            drive(110, "backward");
             Wait(1);
+            telemetry.addData("stopRobot", time);
+            telemetry.update();
+            Nothing();
             stop();
             telemetry.addData("FinishTime", time);
             telemetry.update();
-    
             //ready to start next to the crater
         }
     }
@@ -98,9 +100,9 @@ public class AutoDepot extends LinearOpMode{
     
         double power=0;
         if (direction=="forward") {
-            power = 0.6;
+            power = 0.4;
         } else if (direction == "backward") {
-            power = -0.6;
+            power = -0.4;
         }
         // calculate time needed
         double speed = Constants.unispeed;
@@ -110,10 +112,10 @@ public class AutoDepot extends LinearOpMode{
         resetStartTime();
         // set power by direction
         while (time<=timeneeded) {
-            fLDC.setPower(power);
-            fRDC.setPower(-power);
-            bLDC.setPower(power);
-            bRDC.setPower(-power);
+            fLDC.setPower(-power);
+            fRDC.setPower(power);
+            bLDC.setPower(-power);
+            bRDC.setPower(power);
         }
         Nothing();
     }
@@ -123,9 +125,9 @@ public class AutoDepot extends LinearOpMode{
         // check the direction
         double power=0;
         if (direction=="left") {
-            power = 0.6;
+            power = 0.4;
         } else if (direction == "right") {
-            power = -0.6;
+            power = -0.4;
         }
         // calculate time needed
         double speed = Constants.uniturn;
@@ -160,10 +162,10 @@ public class AutoDepot extends LinearOpMode{
         bRDC.setPower(0);
     }
     //Servo Methods
-    public void ServoFaceUp(){
+    public void ServoFaceDown(){
         claim.setPosition(0);
     }
-    public void ServoFaceDown(){
+    public void ServoFaceUp(){
         claim.setPosition(1);
     }
     

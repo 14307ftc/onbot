@@ -48,46 +48,59 @@ public class AutoCrater2 extends LinearOpMode{
             telemetry.addData("StartingTime", time);
             telemetry.addLine();
             
+            claim.setPosition(0.5);
+            
             //Moving the hook
-            MoveHook(2.6);
+            MoveHook(4.45);
             Wait(1);
-                
+            
             //Micromanaging position
             turn(25,"left");
             Wait(0.5);
-            drive(2, "backward");
+            drive(2, "forward");
             Wait(0.5);
             turn(25, "right");
             
-            //drive to lane 1
-            drive(15, "forward");
+            //drive to lane 2
+            drive(20,"forward");
             Wait(0.2);
-            turn(90, "left");
+            turn(90,"left");
             Wait(0.2);
-            drive(40, "forward");
+            drive(30,"forward");
             Wait(0.2);
-            turn(45, "left");
+            turn(40,"left");
+            Wait(0.2);
+            drive(69,"forward");
+            Wait(0.2);
+            drive(5,"backward");
+            Wait(0.2);
+            turn(92,"right");
+            Wait(0.2);
+            drive(16,"forward");
+            Wait(0.2);
+            turn(2,"right");
             Wait(0.2);
             
             //go and drop marker
-            drive(56, "forward");
-            Wait(0.2);
-            ServoFaceDown();
-            Wait(0.2);
             ServoFaceUp();
-            Wait(0.2);
+            Wait(0.4);
             ServoFaceDown();
-            Wait(0.5);
-            Wait(0.5);
-            drive(3, "backward");
-            Wait(0.25);
-            drive(4, "forward");
-            Wait(0.25);
+            Wait(0.4);
+            ServoFaceUp();
+            Wait(0.4);
+            drive(2, "backward");
+            Wait(0.4);
             
             //go to crater
-            turn(90, "left");
             Wait(0.2);
-            drive(100, "backward");
+            turn(180,"right");
+            Wait(0.2);
+            drive(15, "forward");
+            Wait(0.2);
+            turn(10,"right");
+            Wait(0.2);
+            drive(95, "forward");
+            drive(0, "forward");
             Wait(1);
             stop();
             telemetry.addData("FinishTime", time);
@@ -110,9 +123,9 @@ public class AutoCrater2 extends LinearOpMode{
         // check the direction
         double power=0;
         if (direction=="forward") {
-            power = 0.6;
+            power = 0.4;
         } else if (direction == "backward") {
-            power = -0.6;
+            power = -0.4;
         }
         // calculate time needed
         double speed = Constants.unispeed;
@@ -135,9 +148,9 @@ public class AutoCrater2 extends LinearOpMode{
         // check the direction
         double power=0;
         if (direction=="left") {
-            power = 0.6;
+            power = 0.4;
         } else if (direction == "right") {
-            power = -0.6;
+            power = -0.4;
         }
         // calculate time needed
         double speed =  Constants.uniturn;
@@ -169,7 +182,7 @@ public class AutoCrater2 extends LinearOpMode{
     
     //Do nothing
     public void Nothing() {
-        fLDC.setPower(0);
+            fLDC.setPower(0);
             fRDC.setPower(0);
             bLDC.setPower(0);
             bRDC.setPower(0);

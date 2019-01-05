@@ -21,8 +21,6 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
     private DcMotor fLDC;
     private DcMotor fRDC;
     private DcMotor hook;
-    private DcMotor arm;
-    private DcMotor arm2;
     private Servo claim;
     
     @Override
@@ -32,8 +30,6 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         fLDC = hardwareMap.get(DcMotor.class, Constants.leftDriveFront);
         fRDC = hardwareMap.get(DcMotor.class, Constants.rightDriveFront);
         hook = hardwareMap.get(DcMotor.class, Constants.hook);
-        arm = hardwareMap.get(DcMotor.class, "arm");
-        arm2 = hardwareMap.get(DcMotor.class, "arm2");
         claim = hardwareMap.get(Servo.class, "claim");
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -47,10 +43,10 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
         while (opModeIsActive()) {
             // left stick makes it go forward and backward   
             tgtPower = -this.gamepad1.left_stick_y;
-            bLDC.setPower(-tgtPower*6/10);
-            bRDC.setPower(tgtPower*6/10);
-            fLDC.setPower(-tgtPower*6/10);
-            fRDC.setPower(tgtPower*6/10);
+            bLDC.setPower(-tgtPower*7/10);
+            bRDC.setPower(tgtPower*7/10);
+            fLDC.setPower(-tgtPower*7/10);
+            fRDC.setPower(tgtPower*7/10);
             
             telemetry.addData("Target Power", tgtPower);
             telemetry.addData("Back Left", bRDC.getPower());
@@ -61,19 +57,13 @@ public class MyFIRSTJavaOpMode extends LinearOpMode {
             
             //right stick goes forward and backw    
             tgtPower = -this.gamepad1.right_stick_x;
-            bLDC.setPower(tgtPower*6/10);
-            bRDC.setPower(tgtPower*6/10);
-            fLDC.setPower(tgtPower*6/10);
-            fRDC.setPower(tgtPower*6/10);
+            bLDC.setPower(tgtPower*7/10);
+            bRDC.setPower(tgtPower*7/10);
+            fLDC.setPower(tgtPower*7/10);
+            fRDC.setPower(tgtPower*7/10);
             
-            tgtPower = -this.gamepad2.left_stick_y;
+            tgtPower = -this.gamepad2.right_stick_y;
             hook.setPower(tgtPower);
-            
-            tgtPower = -this.gamepad2.right_stick_x;//left_trigger;
-            arm.setPower(tgtPower*0.35);
-            
-            tgtPower = -this.gamepad2.left_stick_x;//left_trigger;
-            arm2.setPower(tgtPower*0.35);
             
             telemetry.addData("Target Power", tgtPower);
             telemetry.addData("Back Left", bLDC.getPower());

@@ -49,7 +49,7 @@ public class AutoCrater1 extends LinearOpMode{
             telemetry.addLine();
             claim.setPosition(0.5);
             //Moving the hook
-            MoveHook(2.7);
+            MoveHook(4.45);
             Wait(1);
                 
             //Micromanaging position
@@ -60,27 +60,38 @@ public class AutoCrater1 extends LinearOpMode{
             turn(25, "right");
             
             //drive to lane 1
-            drive(30, "forward");
+            drive(22, "forward");
             Wait(0.2);
-            turn(90, "left");
+            turn(75, "left");
             Wait(0.2);
-            drive(38, "forward");
+            drive(46, "forward");
             Wait(0.2);
-            turn(45, "left");
+            turn(29, "left");
             Wait(0.2);
             
             //drop marker
-            drive(66, "forward");
+            drive(47, "forward");
             Wait(0.2);
+            turn(3, "right");
+            Wait(0.2);
+            turn(3, "left");
+            Wait(0.2);
+            ServoFaceUp();
+            Wait(0.5);
+            ServoFaceDown();
+            Wait(1);
             ServoFaceUp();
             Wait(1);
             ServoFaceDown();
-            Wait(1);
+            Wait(0.5);
             
             //go to crater
-            turn(8, "right");
             Wait(0.2);
-            drive(120, "backward");
+            drive(30, "backward");
+            Wait(0.5);
+            turn(4, "right");
+            Wait(0.2);
+            drive(80, "backward");
             Wait(1);
             stop();
             telemetry.addData("FinishTime", time);
@@ -103,9 +114,9 @@ public class AutoCrater1 extends LinearOpMode{
         // check the direction
         double power=0;
         if (direction=="forward") {
-            power = 0.6;
+            power = 0.4;
         } else if (direction == "backward") {
-            power = -0.6;
+            power = -0.4;
         }
         // calculate time needed
         double speed = Constants.unispeed;
@@ -128,9 +139,9 @@ public class AutoCrater1 extends LinearOpMode{
         // check the direction
         double power=0;
         if (direction=="left") {
-            power = 0.6;
+            power = 0.4;
         } else if (direction == "right") {
-            power = -0.6;
+            power = -0.4;
         }
         // calculate time needed
         double speed =  Constants.uniturn;

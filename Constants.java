@@ -7,6 +7,6 @@ public class Constants {
         public static final String rightDriveBack = "rightBackWhl";     //port 3
         public static final String hook = "hook";
         public static final String claim = "claim";
-        public static final double unispeed = 26;
-        public static final double uniturn = 113;
+        public static final double unispeed = 19;
+        public static final double uniturn = 51;
 }
