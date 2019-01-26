@@ -17,14 +17,11 @@ public class HardwareInitializer {
     public DcMotor  leftDriveBack   = null;
     public DcMotor  rightDriveFront = null;
     public DcMotor  rightDriveBack  = null;
-    public DcMotor  rackPinion   = null;
-    public DcMotor  linearSlider    = null;
-    public DcMotor  ballDropper     = null;
-
+    public DcMotor  hook            = null;
+    
    //Servo
 
     public Servo    markerHolder   = null;
-    public Servo    ballPicker     = null;
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -50,8 +47,7 @@ public class HardwareInitializer {
         leftDriveBack  = hwMap.get(DcMotor.class, Constants.leftDriveBack);
         rightDriveFront = hwMap.get(DcMotor.class, Constants.rightDriveFront);
         rightDriveBack = hwMap.get(DcMotor.class,Constants.rightDriveBack);
-        rackPinion = hwMap.get(DcMotor.class, Constants.rackPinion);
-        linearSlider    = hwMap.get(DcMotor.class, Constants.linearSlider);
+        hook = hwMap.get(DcMotor.class,Constants.hook);
         // leftDriveFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //  rightDriveFront.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -67,14 +63,6 @@ public class HardwareInitializer {
         leftDriveBack.setPower(0);
         rightDriveFront.setPower(0);
         rightDriveBack.setPower(0);
-        rackPinion.setPower(0);
-        linearSlider.setPower(0);
-
-        // Define and initialize ALL installed servos.
-
-        markerHolder=hwMap.get(Servo.class,"marker_holder");
-
-        markerHolder.setPosition(MID_SERVO);
     }
 
 }

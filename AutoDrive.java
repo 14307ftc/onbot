@@ -25,7 +25,7 @@ public class AutoDrive  extends LinearOpMode{
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 0.8 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 5.0 ;     // For figuring circumference
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
@@ -83,14 +83,14 @@ public class AutoDrive  extends LinearOpMode{
             //2. Adjust position
             //3. Mineral Sensing
 
-            if (tfod != null) {
+/*            ?8if (tfod != null) {
                 tfod.activate();
             }
 
             int pos=findGoldPosition();
             if (tfod != null) {
                 tfod.shutdown();
-            }
+            }*/
             //4. Move to mineral and push
             //5. Adjust Position
             //6. Move to drop the marker
@@ -105,7 +105,7 @@ public class AutoDrive  extends LinearOpMode{
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  12,  12, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
+        encoderDrive("drive", 20, 2);  // S1: Forward 47 Inches with 5 Sec timeout
        // encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
         //encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
@@ -120,9 +120,9 @@ public class AutoDrive  extends LinearOpMode{
         time = 0;
         resetStartTime();
         while (time<=timeneeded) {
-            robot.rackPinion.setPower(1);
+            robot.hook.setPower(1);
         }
-        robot.rackPinion.setPower(0);
+        robot.hook.setPower(0);
     }
 
     public void Wait(double amount) {
@@ -144,32 +144,65 @@ public class AutoDrive  extends LinearOpMode{
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
+    
+    public void encoderDrive(String mode,
+                             double distance,
                              double timeoutS) {
-        int newLeftTarget;
-        int newRightTarget;
+        int newLeftTarget = 0;
+        int newRightTarget = 0;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.leftDriveFront.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.rightDriveBack.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            if (mode=="drive") {
+              if (distance<0) {
+                newLeftTarget = -(robot.leftDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+                newLeftTarget = -(robot.leftDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+                
+                newRightTarget = -(robot.rightDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+                newRightTarget = -(robot.rightDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+              }
+              if (distance>0) {
+                newLeftTarget = robot.leftDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+                newLeftTarget = robot.leftDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+                
+                newRightTarget = robot.rightDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+                newRightTarget = robot.rightDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+              }
+            }
+            
+            if (mode=="turn") {
+              if (distance<0) {
+                newLeftTarget = robot.leftDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+                newLeftTarget = robot.leftDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+                
+                newRightTarget = -(robot.rightDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+                newRightTarget = -(robot.rightDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+              }
+              if (distance>0) {
+                newLeftTarget = -(robot.leftDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+                newLeftTarget = -(robot.leftDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH));
+                
+                newRightTarget = robot.rightDriveFront.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+                newRightTarget = robot.rightDriveBack.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+              }
+            }
+            
             robot.leftDriveFront.setTargetPosition(newLeftTarget);
+            robot.leftDriveBack.setTargetPosition(newLeftTarget);
             robot.rightDriveFront.setTargetPosition(newRightTarget);
-
+            robot.rightDriveBack.setTargetPosition(newRightTarget);
+            
             // Turn On RUN_TO_POSITION
             robot.leftDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.leftDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+            robot.rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            
             // reset the timeout time and start motion.
             runtime.reset();
-            robot.leftDriveFront.setPower(-Math.abs(speed));
-            robot.leftDriveBack.setPower(-Math.abs(speed));
-            robot.rightDriveFront.setPower(Math.abs(speed));
-            robot.rightDriveBack.setPower(Math.abs(speed));
-
+            
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will

@@ -106,7 +106,7 @@ public class TeleDrive extends LinearOpMode {
                 tfod.shutdown();
             }
 
-            switch(position){
+          /*  switch(position){
                 //Gold Position left --1  Center --2 Right ---3
                 case 1:
                     turn(30,"left");
@@ -145,7 +145,7 @@ public class TeleDrive extends LinearOpMode {
                     drive(120, "backward");
                     break;
 
-            }
+            }*/
 
             //4. Move to mineral and push
             //5. Adjust Position
@@ -329,9 +329,9 @@ public class TeleDrive extends LinearOpMode {
         time = 0;
         resetStartTime();
         while (time<=timeneeded) {
-            robot.rackPinion.setPower(1);
+          //  robot.rackPinion.setPower(1);
         }
-        robot.rackPinion.setPower(0);
+//robot.rackPinion.setPower(0);
     }
 
     //Driving the robot (enter diastance to move forward in inches and direction forward or backward)
