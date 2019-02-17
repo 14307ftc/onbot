@@ -186,7 +186,7 @@ public class TeleDrive extends LinearOpMode {
         int newRightTarget;
 
         // Ensure that the opmode is still active
-        if (opModeIsActive()) {
+        /*if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.leftDriveFront.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
@@ -233,7 +233,7 @@ public class TeleDrive extends LinearOpMode {
             robot.rightDriveFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
-        }
+        }*/
     }
 
     private void initVuforia() {
@@ -323,95 +323,95 @@ public class TeleDrive extends LinearOpMode {
         return position;
     }
 
+ public int findGoldPosition(double timetofind,String cameraPosition){
+        int position=0;
+        time=0;
+        runtime.reset();
+
+        while(runtime.time() < timetofind) { // I just put this number in as an example.
+            // run tensorflow code
+
+            if (tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    if (updatedRecognitions.size() == 2) {
+                        int goldMineralX = -1;
+                        int silverMineral1X = -1;
+                        int silverMinera21X = -1;
+
+                        for (Recognition recognition : updatedRecognitions) {
+
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                goldMineralX = (int) recognition.getLeft();
+                            } else if (silverMineral1X == -1) {
+                                silverMineral1X = (int) recognition.getLeft();
+                            } else {
+
+                                silverMinera21X = (int) recognition.getLeft();
+                            }
+                        }
+
+                        telemetry.addData("Gold position", goldMineralX);
+                        telemetry.addData("Silver position", silverMineral1X);
+
+                     if(cameraPosition.equalsIgnoreCase("left")) {
+
+                         if (goldMineralX != -1 && silverMineral1X != -1) {
+                             if (goldMineralX < silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Left");
+                                 position = 1;
+                             } else if (goldMineralX > silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Center");
+                                 position = 2;
+                             }
+                         }
+                         if (position != 1 && position != 2) {
+
+                             telemetry.addData("Gold Mineral Position", "Right");
+                             position = 3;
+                         }
+                     }
+                     //If the camera is turned to right view
+                     else if(cameraPosition.equalsIgnoreCase(("Right"))) {
+
+                         if (goldMineralX != -1 && silverMineral1X != -1) {
+                             if (goldMineralX > silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Right");
+                                 position = 1;
+                             } else if (goldMineralX < silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Center");
+                                 position = 2;
+                             }
+                         }
+                         if (position != 1 && position != 2) {
+
+                             telemetry.addData("Gold Mineral Position", "Left");
+                             position = 3;
+                         }
 
 
-    public void MoveHook(double timeneeded) {
-        time = 0;
-        resetStartTime();
-        while (time<=timeneeded) {
-          //  robot.rackPinion.setPower(1);
+
+
+
+
+
+
+
+                     }
+                    }
+                    telemetry.update();
+                }
+            }
+
         }
-//robot.rackPinion.setPower(0);
-    }
 
-    //Driving the robot (enter diastance to move forward in inches and direction forward or backward)
-    public void drive(double distance, String direction) {
-        // check the direction
-        double power=0;
-        if (direction=="forward") {
-            power = 0.4;
-        } else if (direction == "backward") {
-            power = -0.4;
-        }
-        // calculate time needed
-        double speed = Constants.unispeed;
-        double timeneeded = 0;
-        timeneeded = distance/speed;
-        time = 0;
-        resetStartTime();
-        // set power by direction
-        while (time<=timeneeded) {
-            robot.leftDriveFront.setPower(-power);
-            robot.rightDriveFront.setPower(power);
-            robot.leftDriveBack.setPower(-power);
-            robot.rightDriveBack.setPower(power);
-        }
-        Nothing();
-    }
+        telemetry.update();
 
-    //Turning the robot (enter amount of degrees to turn and direction to turn(left or right))
-    public void turn(double degrees, String direction) {
-        // check the direction
-        double power=0;
-        if (direction=="left") {
-            power = 0.4;
-        } else if (direction == "right") {
-            power = -0.4;
-        }
-        // calculate time needed
-        double speed =  Constants.uniturn;
-        double timeneeded = 0;
-        timeneeded = degrees/speed;
-        time = 0;
-        resetStartTime();
-        // set power by direction
-        while (time<=timeneeded) {
-            robot.leftDriveBack.setPower(power);
-            robot.leftDriveFront.setPower(power);
-            robot.rightDriveFront.setPower(power);
-            robot.rightDriveBack.setPower(power);
-        }
-        Nothing();
+        return position;
     }
-
-    //Wait for the amount of time entered
-    public void Wait(double amount) {
-        time = 0;
-        resetStartTime();
-        while (time<=amount) {
-            robot.leftDriveBack.setPower(0);
-            robot.leftDriveFront.setPower(0);
-            robot.rightDriveFront.setPower(0);
-            robot.rightDriveBack.setPower(0);
-        }
-    }
-
-    //Do nothing
-    public void Nothing() {
-        robot.leftDriveBack.setPower(0);
-        robot.leftDriveFront.setPower(0);
-        robot.rightDriveFront.setPower(0);
-        robot.rightDriveBack.setPower(0);
-    }
-
-    //Servo Methods
-    public void ServoFaceUp(){
-        //claim.setPosition(0);
-    }
-    public void ServoFaceDown(){
-        //claim.setPosition(1);
-    }
-
 
 
 

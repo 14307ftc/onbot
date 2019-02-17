@@ -17,8 +17,6 @@ import org.firstinspires.ftc.teamcode.Constants;
 public class SelfDiagnostics extends LinearOpMode{
 
     //Wheels
-    private DcMotor fLDC;
-    private DcMotor fRDC;
     private DcMotor bLDC;
     private DcMotor bRDC;
     
@@ -26,9 +24,9 @@ public class SelfDiagnostics extends LinearOpMode{
     private DcMotor hook;
     
     //Arm
-    private DcMotor armRotator;
-    private DcMotor armExtender;
-    private CRServo armServo;
+    private DcMotor armCollect;
+    private DcMotor armDeposit;
+    private DcMotor armSpinner;
     
     //Claim
     private Servo claim;
@@ -39,12 +37,10 @@ public class SelfDiagnostics extends LinearOpMode{
         //Initiating hardware
         bLDC = hardwareMap.get(DcMotor.class, Constants.leftDriveBack);
         bRDC = hardwareMap.get(DcMotor.class, Constants.rightDriveBack);
-        fLDC = hardwareMap.get(DcMotor.class, Constants.leftDriveFront);
-        fRDC = hardwareMap.get(DcMotor.class, Constants.rightDriveFront);
         hook = hardwareMap.get(DcMotor.class, Constants.hook);
-        armRotator = hardwareMap.get(DcMotor.class, Constants.armRotator);
-        armExtender = hardwareMap.get(DcMotor.class, Constants.armExtender);
-        armServo = hardwareMap.get(CRServo.class, Constants.armServo);
+        armCollect = hardwareMap.get(DcMotor.class, Constants.armCollect);
+        armDeposit = hardwareMap.get(DcMotor.class, Constants.armDeposit);
+        armSpinner = hardwareMap.get(DcMotor.class, Constants.armSpinner);
         claim = hardwareMap.get(Servo.class, Constants.claim);
     
         waitForStart();
@@ -64,16 +60,6 @@ public class SelfDiagnostics extends LinearOpMode{
             }
             bRDC.setPower(0);
             
-            while (time>2 && time <=3){
-                fLDC.setPower(1);
-            }
-            fLDC.setPower(0);
-            
-            while (time>3 && time <=4){
-                fRDC.setPower(1);
-            }
-            fRDC.setPower(0);
-           
             // Hook
             while (time>4 && time <=4.5){
                 hook.setPower(1);
@@ -94,33 +80,33 @@ public class SelfDiagnostics extends LinearOpMode{
                 }
             claim.setPosition(1);
                 
-            // Arm Servo
+            // Arm Spinner
             while (time>9 && time<=10) {
-                armServo.setPower(1);
+                armSpinner.setPower(1);
                 }
             while (time>10 && time<=11) {
-                armServo.setPower(-1);
+                armSpinner.setPower(-1);
                 }
              
             // Arm Extender
             while (time>11 && time <=11.5){
-                armExtender.setPower(1);
+                armCollect.setPower(1);
             }
-            armExtender.setPower(0);
+            armCollect.setPower(0);
             while (time>11.5 && time <=12){
-                armExtender.setPower(-1);
+                armCollect.setPower(-1);
             }
-            armExtender.setPower(0);
+            armCollect.setPower(0);
             
             // Arm Rotator
             while (time>12 && time <=12.5){
-                armRotator.setPower(1);
+                armDeposit.setPower(1);
             }
-            armRotator.setPower(0);
+            armDeposit.setPower(0);
             while (time>12.5 && time <=13){
-                armRotator.setPower(-1);
+                armDeposit.setPower(-1);
             }
-            armRotator.setPower(0);
+            armDeposit.setPower(0);
         
             stop();
         }

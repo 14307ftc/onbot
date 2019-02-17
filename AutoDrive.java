@@ -82,11 +82,11 @@ public class AutoDrive  extends LinearOpMode{
                  //Wait(1);
             //2. Adjust position
             //3. Mineral Sensing
-
-/*            ?8if (tfod != null) {
+            encoderDrive("drive", 20, 2, 1);
+/*?8if (tfod != null) {
                 tfod.activate();
             }
-
+            
             int pos=findGoldPosition();
             if (tfod != null) {
                 tfod.shutdown();
@@ -105,7 +105,7 @@ public class AutoDrive  extends LinearOpMode{
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive("drive", 20, 2);  // S1: Forward 47 Inches with 5 Sec timeout
+          // S1: Forward 47 Inches with 5 Sec timeout
        // encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
         //encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
@@ -147,12 +147,12 @@ public class AutoDrive  extends LinearOpMode{
     
     public void encoderDrive(String mode,
                              double distance,
-                             double timeoutS) {
+                             double timeoutS, double speed) {
         int newLeftTarget = 0;
         int newRightTarget = 0;
 
         // Ensure that the opmode is still active
-        if (opModeIsActive()) {
+        while (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
             if (mode=="drive") {
@@ -200,9 +200,6 @@ public class AutoDrive  extends LinearOpMode{
             robot.rightDriveFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.rightDriveBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             
-            // reset the timeout time and start motion.
-            runtime.reset();
-            
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
             // its target position, the motion will stop.  This is "safer" in the event that the robot will
@@ -221,6 +218,14 @@ public class AutoDrive  extends LinearOpMode{
                 telemetry.update();
             }
 
+            // reset the timeout time and start motion.
+            /*runtime.reset();
+            robot.leftDriveFront.setPower(-Math.abs(speed));
+            robot.leftDriveBack.setPower(-Math.abs(speed));
+            robot.rightDriveFront.setPower(Math.abs(speed));
+            robot.rightDriveBack.setPower(Math.abs(speed));
+            */
+            
             // Stop all motion;
             robot.leftDriveFront.setPower(0);
             robot.leftDriveBack.setPower(0);

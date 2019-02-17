@@ -26,14 +26,9 @@ import java.util.List;
 public class FullAutoDepot extends LinearOpMode{
     
     //Defining Hardware
-    private DcMotor fLDC;
-    private DcMotor fRDC;
     private DcMotor bLDC;
     private DcMotor bRDC;
     private DcMotor hook;
-    private DcMotor armExtender;
-    private DcMotor armRotator;
-    private CRServo armServo;
     private Servo claim;
     
     
@@ -52,12 +47,7 @@ public class FullAutoDepot extends LinearOpMode{
         //Initiating hardware
         bLDC = hardwareMap.get(DcMotor.class, Constants.leftDriveBack);
         bRDC = hardwareMap.get(DcMotor.class, Constants.rightDriveBack);
-        fLDC = hardwareMap.get(DcMotor.class, Constants.leftDriveFront);
-        fRDC = hardwareMap.get(DcMotor.class, Constants.rightDriveFront);
         hook = hardwareMap.get(DcMotor.class, Constants.hook);
-        armExtender = hardwareMap.get(DcMotor.class, Constants.armExtender);
-        armRotator = hardwareMap.get(DcMotor.class, Constants.armRotator);
-        armServo = hardwareMap.get(CRServo.class, Constants.armServo);
         claim = hardwareMap.get(Servo.class, Constants.claim);
         //HardwarePushbotIntitialize14307 robot = new HardwarePushbotIntitialize14307();
         
@@ -74,11 +64,11 @@ public class FullAutoDepot extends LinearOpMode{
             //Moving with time
             telemetry.addData("StartingTime", time);
             telemetry.addLine();
-            claim.setPosition(0);
+            claim.setPosition(1);
             
             //Move the hook
             MoveHook(1, 1);
-            MoveHook(4, 0.8);
+            MoveHook(3.6, 0.8);
             Wait(1);
             
             //Micromanaging position
@@ -86,7 +76,10 @@ public class FullAutoDepot extends LinearOpMode{
             Wait(0.5);
             drive(3, "forward");
             Wait(0.5);
-            turn(30, "right");
+            turn(29, "right");
+            Wait(0.2);
+            MoveHook(0.2, 0.8);
+            drive(1, "backward");
             
             //Sampling initiation
             initVuforia();
@@ -113,44 +106,34 @@ public class FullAutoDepot extends LinearOpMode{
                 //Gold Position Left --1  Center --2 Right ---3
                 case 1:
                     telemetry.addData("Moving", "Left");
-                    turn(30,"left");
+                    turn(22,"left");
                     Wait(.2);
-                    drive(50, "forward");
+                    drive(49, "forward");
                     Wait(.2);
-                    turn(67, "right");
+                    turn(56, "right");
                     Wait(.2);
                     drive(35, "forward");
-                    ServoFaceUp();
-                    Wait(0.5);
                     ServoFaceDown();
-                    Wait(0.5);
-                    /*rotateArm(0.5);
-                    runtime.reset();
-                    while (runtime.seconds()<=3.0) {
-                        armExtender.setPower(1);
-                        drive(70, "backward");
-                    }*/
-                    drive(64, "backward", 1);
-                    armExtender.setPower(0);
+                    Wait(1);
+                    claim.setPosition(0.75);
+                    Wait(0.2);
+                    drive(59, "backward", 1);
                     break;
                     
               default:        
               case 2:
                     telemetry.addData("Moving", "Center");
+                    turn(4, "right");
+                    Wait(0.2);
                     drive(70, "forward");
-                    ServoFaceUp();
                     Wait(0.5);
+                    turn(38, "right");
+                    
+                     drive(2, "backward");
                     ServoFaceDown();
                     Wait(0.5);
-                    turn(46, "right");
-                    /*rotateArm(0.5);
-                    runtime.reset();
-                    while (runtime.seconds()<=3.0) {
-                        armExtender.setPower(1);
-                        drive(70, "backward");
-                    }*/
-                    drive(64, "backward", 1);
-                    armExtender.setPower(0);
+                    claim.setPosition(0.75);
+                     drive(62, "backward", 1);
                     break;
                   
               case 3:
@@ -159,23 +142,17 @@ public class FullAutoDepot extends LinearOpMode{
                     Wait(0.2);
                     drive(47, "forward");
                     Wait(0.2);
-                    turn(65, "left");
+                    turn(62, "left");
                     Wait(0.2);
                     drive(42, "forward");
                     Wait(0.2);
-                    turn(90,"right");
-                    ServoFaceUp();
-                    Wait(0.5);
+                    turn(75,"right");
+                    drive(3, "backward");
                     ServoFaceDown();
                     Wait(0.5);
-                    /*rotateArm(0.5);
-                    runtime.reset();
-                    while (runtime.seconds()<=3.0) {
-                        armExtender.setPower(1);
-                        drive(70, "backward");
-                    }*/
-                    drive(64, "backward", 1);
-                    armExtender.setPower(0);
+                    claim.setPosition(0.75);
+                    Wait(0.5);
+                    drive(58, "backward", 1);
                     break;
                 
            } telemetry.addData("stopRobot", time);
@@ -197,14 +174,14 @@ public class FullAutoDepot extends LinearOpMode{
         hook.setPower(0);
     }
     
-    public void rotateArm(double timeneeded) {
+    /*public void rotateArm(double timeneeded) {
         time = 0;
         resetStartTime();
         while (time<=timeneeded) {
             armRotator.setPower(1);
         }
         armRotator.setPower(0);
-    }
+    }*/
         
         
     // Driving the robot (enter diastance to move forward in inches and direction forward or backward)
@@ -228,8 +205,6 @@ public class FullAutoDepot extends LinearOpMode{
         resetStartTime();
         // set power by direction
         while (time<=timeneeded) {
-            fLDC.setPower(-power);
-            fRDC.setPower(power);
             bLDC.setPower(-power);
             bRDC.setPower(power);
         }
@@ -255,8 +230,6 @@ public class FullAutoDepot extends LinearOpMode{
         resetStartTime();
         // set power by direction
         while (time<=timeneeded) {
-            fLDC.setPower(-power);
-            fRDC.setPower(power);
             bLDC.setPower(-power);
             bRDC.setPower(power);
         }
@@ -281,8 +254,6 @@ public class FullAutoDepot extends LinearOpMode{
         resetStartTime();
         // set power by direction
         while (time<=timeneeded) {
-            fLDC.setPower(power);
-            fRDC.setPower(power);
             bLDC.setPower(power);
             bRDC.setPower(power);
         }
@@ -293,16 +264,12 @@ public class FullAutoDepot extends LinearOpMode{
         time = 0;
         resetStartTime();
         while (time<=amount) {
-            fLDC.setPower(0);
-            fRDC.setPower(0);
             bLDC.setPower(0);
             bRDC.setPower(0);   
         }
     }
     
     public void Nothing() {
-        fLDC.setPower(0);
-        fRDC.setPower(0);
         bLDC.setPower(0);
         bRDC.setPower(0);
     }
@@ -402,5 +369,99 @@ public class FullAutoDepot extends LinearOpMode{
 
         return position;
     }
+    
+    /**The OVERRIDE METHOD for sensing used to check the right side. 
+     * Do not change.
+     * */
+     public int findGoldPosition(double timetofind,String cameraPosition){
+        int position=0;
+        time=0;
+        runtime.reset();
+
+        while(runtime.time() < timetofind) { // I just put this number in as an example.
+            // run tensorflow code
+
+            if (tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    if (updatedRecognitions.size() == 2) {
+                        int goldMineralX = -1;
+                        int silverMineral1X = -1;
+                        int silverMinera21X = -1;
+
+                        for (Recognition recognition : updatedRecognitions) {
+
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
+                                goldMineralX = (int) recognition.getLeft();
+                            } else if (silverMineral1X == -1) {
+                                silverMineral1X = (int) recognition.getLeft();
+                            } else {
+
+                                silverMinera21X = (int) recognition.getLeft();
+                            }
+                        }
+
+                        telemetry.addData("Gold position", goldMineralX);
+                        telemetry.addData("Silver position", silverMineral1X);
+
+                     if(cameraPosition.equalsIgnoreCase("left")) {
+
+                         if (goldMineralX != -1 && silverMineral1X != -1) {
+                             if (goldMineralX < silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Left");
+                                 position = 1;
+                             } else if (goldMineralX > silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Center");
+                                 position = 2;
+                             }
+                         }
+                         if (position != 1 && position != 2) {
+
+                             telemetry.addData("Gold Mineral Position", "Right");
+                             position = 3;
+                         }
+                     }
+                     //If the camera is turned to right view
+                     else if(cameraPosition.equalsIgnoreCase(("Right"))) {
+
+                         if (goldMineralX != -1 && silverMineral1X != -1) {
+                             if (goldMineralX > silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Right");
+                                 position = 1;
+                             } else if (goldMineralX < silverMineral1X) {
+                                 telemetry.addData("Gold Mineral Position", "Center");
+                                 position = 2;
+                             }
+                         }
+                         if (position != 1 && position != 2) {
+
+                             telemetry.addData("Gold Mineral Position", "Left");
+                             position = 3;
+                         }
+
+
+
+
+
+
+
+
+
+                     }
+                    }
+                    telemetry.update();
+                }
+            }
+
+        }
+
+        telemetry.update();
+
+        return position;
+    }
+
     
 }

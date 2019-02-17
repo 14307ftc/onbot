@@ -30,9 +30,9 @@ public class FullAutoCrater extends LinearOpMode{
     private DcMotor fRDC;
     private DcMotor bLDC;
     private DcMotor bRDC;
-    private DcMotor hook;
+    private DcMotor hook;/*
     private DcMotor armExtender;
-    private DcMotor armRotator;
+    private DcMotor armRotator;*/
     private CRServo armServo;
     private Servo claim;
     
@@ -52,12 +52,10 @@ public class FullAutoCrater extends LinearOpMode{
         //Initiating hardware
         bLDC = hardwareMap.get(DcMotor.class, Constants.leftDriveBack);
         bRDC = hardwareMap.get(DcMotor.class, Constants.rightDriveBack);
-        fLDC = hardwareMap.get(DcMotor.class, Constants.leftDriveFront);
-        fRDC = hardwareMap.get(DcMotor.class, Constants.rightDriveFront);
         hook = hardwareMap.get(DcMotor.class, Constants.hook);
-        armExtender = hardwareMap.get(DcMotor.class, Constants.armExtender);
-        armRotator = hardwareMap.get(DcMotor.class, Constants.armRotator);
-        armServo = hardwareMap.get(CRServo.class, Constants.armServo);
+        /*armExtender = hardwareMap.get(DcMotor.class, Constants.armExtender);
+        armRotator = hardwareMap.get(DcMotor.class, Constants.armRotator);*/
+       // armServo = hardwareMap.get(CRServo.class, Constants.armServo);
         claim = hardwareMap.get(Servo.class, Constants.claim);
         //HardwarePushbotIntitialize14307 robot = new HardwarePushbotIntitialize14307();
         
@@ -74,19 +72,19 @@ public class FullAutoCrater extends LinearOpMode{
             //Moving with time
             telemetry.addData("StartingTime", time);
             telemetry.addLine();
-            claim.setPosition(0);
+            claim.setPosition(1);
             
             //Move the hook
             MoveHook(1, 1);
-            MoveHook(5, 0.6);
-            Wait(1);
+            MoveHook(3.8, 0.8);
+            Wait(.5);
             
             //Micromanaging position
             turn(25,"left");
             Wait(0.5);
             drive(3, "forward");
             Wait(0.5);
-            turn(30, "right");
+            turn(26, "right");
             
             //Sampling initiation
             initVuforia();
@@ -113,44 +111,49 @@ public class FullAutoCrater extends LinearOpMode{
                 //Gold Position Left --1  Center --2 Right ---3
                 case 1:
                     telemetry.addData("Moving", "Left");
-                    turn(30,"left");
+                    turn(25,"left");
                     Wait(.2);
                     drive(35, "forward");
                     Wait(.2);
                     drive(20, "backward");
                     Wait(.2);
-                    turn(30, "left");
+                    turn(35, "left");
                     Wait(.2);
-                    drive(43, "forward");
+                    drive(41, "forward");
                     Wait(.2);
-                    turn(42, "left");
+                    turn(34, "left");
                     Wait(.2);
                     drive(60, "forward");
                     ServoFaceUp();
                     Wait(0.5);
                     ServoFaceDown();
                     Wait(0.5);
-                    drive(60, "backward", 1);
+                    ServoFaceUp();
+                    Wait(0.5);
+                    drive(65, "backward", 1);
                     break;
                     
             default:
               case 2:
                     telemetry.addData("Moving", "Center");
                     
+                    turn(7, "right");
                     drive(35, "forward");
                     Wait(.2);
                     drive(20, "backward");
                     Wait(.2);
                     turn(60, "left");
                     Wait(.2);
-                    drive(43, "forward");
+                    drive(49, "forward");
                     Wait(.2);
-                    turn(42, "left");
+                    turn(35, "left");
                     Wait(.2);
                     drive(60, "forward");
                     ServoFaceUp();
                     Wait(0.5);
                     ServoFaceDown();
+                    Wait(0.5);
+                    ServoFaceUp();
                     Wait(0.5);
                     drive(60, "backward", 1);
                     
@@ -158,17 +161,17 @@ public class FullAutoCrater extends LinearOpMode{
                   
               case 3:
                     telemetry.addData("Moving", "case3:Right");
-                    turn(30,"right");
+                    turn(33,"right");
                     Wait(0.1);
-                    drive(20, "forward", 0.8);
+                    drive(32, "forward", 0.8);
                     Wait(.1);
-                    drive(10, "backward", 0.8);
+                    /*drive(14, "backward", 0.8);
                     Wait(.1);
-                    turn(90, "left");
+                    turn(92, "left");
                     Wait(.1);
                     drive(60, "forward");
                     Wait(.1);
-                    turn(40, "left");
+                    turn(43, "left");
                     Wait(.1);
                     drive(60, "forward");
                     Wait(0.1);
@@ -176,10 +179,10 @@ public class FullAutoCrater extends LinearOpMode{
                     Wait(0.5);
                     ServoFaceDown();
                     Wait(0.5);
-                    drive(57, "backward", 1);
+                    drive(55, "backward", 1);
                     
-                    armExtender.setPower(0);
-                    break;
+                    //armExtender.setPower(0);
+                    break;*/
               }
             telemetry.addData("stopRobot", time);
             telemetry.update();
@@ -199,7 +202,7 @@ public class FullAutoCrater extends LinearOpMode{
         }
         hook.setPower(0);
     }
-    
+    /*
     public void rotateArm(double timeneeded) {
         time = 0;
         resetStartTime();
@@ -207,7 +210,7 @@ public class FullAutoCrater extends LinearOpMode{
             armRotator.setPower(1);
         }
         armRotator.setPower(0);
-    }
+    }*/
         
         
     // Driving the robot (enter diastance to move forward in inches and direction forward or backward)

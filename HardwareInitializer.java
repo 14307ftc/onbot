@@ -18,6 +18,7 @@ public class HardwareInitializer {
     public DcMotor  rightDriveFront = null;
     public DcMotor  rightDriveBack  = null;
     public DcMotor  hook            = null;
+    public DcMotor  armDeposit      = null;
     
    //Servo
 
@@ -43,11 +44,10 @@ public class HardwareInitializer {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        leftDriveFront  = hwMap.get(DcMotor.class, Constants.leftDriveFront);
-        leftDriveBack  = hwMap.get(DcMotor.class, Constants.leftDriveBack);
-        rightDriveFront = hwMap.get(DcMotor.class, Constants.rightDriveFront);
+/*        leftDriveBack  = hwMap.get(DcMotor.class, Constants.leftDriveBack);
         rightDriveBack = hwMap.get(DcMotor.class,Constants.rightDriveBack);
         hook = hwMap.get(DcMotor.class,Constants.hook);
+        armDeposit = hwMap.get(DcMotor.class,Constants.armDeposit);
         // leftDriveFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         //  rightDriveFront.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -57,12 +57,12 @@ public class HardwareInitializer {
         leftDriveBack.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
         rightDriveFront.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightDriveBack.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-
+        armDeposit.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
         // Set all motors to zero power
         leftDriveFront.setPower(0);
         leftDriveBack.setPower(0);
         rightDriveFront.setPower(0);
-        rightDriveBack.setPower(0);
+        rightDriveBack.setPower(0);*/
     }
 
 }
